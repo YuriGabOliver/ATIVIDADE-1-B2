@@ -118,7 +118,8 @@ class ResultadoActivity : AppCompatActivity() {
 
             textPeso.text = "Peso informado $peso kg"
             textAltura.text = "Altura informada $altura m"
-
+            
+            //Essa variável irá calcular o imc do usúario
             val imc = peso / (altura * altura)
 
             val resultado = if( imc < 18.5 ){
@@ -130,6 +131,8 @@ class ResultadoActivity : AppCompatActivity() {
             }else{
                 "Obeso"
             }
+
+            //Resultado do imc do usúario
             textResultado.text = resultado
 
         }
