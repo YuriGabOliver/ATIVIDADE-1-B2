@@ -111,14 +111,17 @@ class ImcActivity : AppCompatActivity() {
         btnCalcular = findViewById(R.id.btn_calcular)
         editPeso = findViewById(R.id.edit_peso)
         editAltura = findViewById(R.id.edit_altura)
-
+        
+        //Determina a ação ao clicar no botão
         btnCalcular.setOnClickListener {
 
             val intentTwo = Intent(this, ResultadoActivity::class.java)
 
+            //O usúario irá informar os dados
             val peso = editPeso.text.toString()
             val altura = editAltura.text.toString()
-
+            
+            //O processo de cálculo não será válido caso os campos não estejam preenchidos
             if( peso.isNotEmpty() && altura.isNotEmpty() ){
 
                 intent.putExtra("peso", peso.toDouble() )
