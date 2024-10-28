@@ -177,6 +177,7 @@ class MainActivity : AppCompatActivity() {
         btnImc = findViewById(R.id.btnImc)
         btnAgenda = findViewById(R.id.btnAgenda)
 
+        //Ação de transitar por outra tela irá acontecer nesse botão
         btnImc.setOnClickListener {
 
             val intent = Intent(this, ImcActivity::class.java)
