@@ -33,6 +33,6 @@ Tela 3: Tela de Agenda
 Navegação:
    
     • Barra de Navegação (presente em todas as telas):
-        ◦ Ícone de casa (Tela de Início)
-        ◦ Ícone de calculadora (Tela de IMC)
-        ◦ Ícone de calendário (Tela de Agenda)
+        ◦ Botão Home (Tela de Início)
+        ◦ Botão IMC (Tela de IMC)
+        ◦ Botão Agenda (Tela de Agenda)
