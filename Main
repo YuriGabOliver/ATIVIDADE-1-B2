@@ -55,53 +55,13 @@
         tools:ignore="MissingConstraints,VisualLintBounds"
         tools:layout_editor_absoluteX="-12dp" />
 
-    <ImageButton
-        android:id="@+id/imageButton5"
-        android:layout_width="66dp"
-        android:layout_height="55dp"
-        android:backgroundTint="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.081"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.989"
-        app:srcCompat="@drawable/home"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
-
-    <ImageButton
-        android:id="@+id/imc_button"
-        android:layout_width="134dp"
-        android:layout_height="92dp"
-        android:backgroundTint="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.527"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/body_mass_index"
-        tools:ignore="ContentDescription,MissingConstraints,SpeakableTextPresentCheck,ImageContrastCheck" />
-
-    <ImageButton
-        android:id="@+id/imageButton7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="61dp"
-        android:backgroundTint="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.348"
-        app:layout_constraintStart_toEndOf="@+id/imc_button"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.983"
-        app:srcCompat="@drawable/calendar"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
-
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imagePerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:accessibilityTraversalBefore="@id/btnPerfil"
+        android:background="#FFFFFF"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.056"
@@ -109,10 +69,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.169"
         tools:ignore="ContentDescription,ImageContrastCheck"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        tools:visibility="visible" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#00BCD4"
@@ -125,40 +86,113 @@
         app:layout_constraintVertical_bias="0.348"
         tools:ignore="HardcodedText,TextContrastCheck" />
 
+    <Button
+        android:id="@+id/btnHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        android:text="HOME"
+        android:textColor="#09B2A7"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.081"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976"
+        tools:ignore="HardcodedText,TextContrastCheck" />
+
+    <Button
+        android:id="@+id/btnImc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        android:text="IMC"
+        android:textColor="#09B2A7"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976"
+        tools:ignore="HardcodedText,TextContrastCheck" />
+
+    <Button
+        android:id="@+id/btnAgenda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        android:text="AGENDA"
+        android:textColor="#09B2A7"
+        app:iconTint="#09B2A7"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976"
+        tools:ignore="HardcodedText,TextContrastCheck" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 Kotlin:
+package com.example.testesport
+
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Button
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
+@Suppress("DEPRECATION", "KotlinConstantConditions")
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var btnHome: Button
     private lateinit var btnImc: Button
     private lateinit var btnAgenda: Button
+    private lateinit var btnPerfil: Button
+    private lateinit var imagemPerfil: ImageView
+    private val REQUEST_IMAGE_CAPTURE = 1
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         btnImc = findViewById(R.id.btnImc)
         btnAgenda = findViewById(R.id.btnAgenda)
+        btnPerfil = findViewById(R.id.btnPerfil)
+        imagemPerfil = findViewById(R.id.imagePerfil)
 
-        //Ação de transitar por outra tela irá acontecer nesse botão
+
         btnImc.setOnClickListener {
-
-            val intent = Intent(this, ImcActivity::class.java)
-
-
-
-
-            }
-
-            startActivity( intent )
-
+            val intenta = Intent(this, ImcActivity::class.java)
+            startActivity(intenta)
         }
 
+
+        btnAgenda.setOnClickListener {
+            val intentb = Intent(this, AgendaActivity::class.java)
+            startActivity(intentb)
+
+
+        }
+        btnPerfil.setOnClickListener {
+            val intenth = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(intenth, REQUEST_IMAGE_CAPTURE)
+
+
+        }
     }
+
+    @Deprecated("This method has been deprecated in favor of using the Activity Result API\n      which brings increased type safety via an {@link ActivityResultContract} and the prebuilt\n      contracts for common intents available in\n      {@link androidx.activity.result.contract.ActivityResultContracts}, provides hooks for\n      testing, and allow receiving results in separate, testable classes independent from your\n      activity. Use\n      {@link #registerForActivityResult(ActivityResultContract, ActivityResultCallback)}\n      with the appropriate {@link ActivityResultContract} and handling the result in the\n      {@link ActivityResultCallback#onActivityResult(Object) callback}.")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            imagemPerfil.setImageBitmap(imageBitmap)
+
+        }
+    }
+}
