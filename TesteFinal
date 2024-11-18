@@ -49,7 +49,6 @@ ANDROID:
 
 MAIN: 
 
-package com.example.spoorton
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -73,8 +72,8 @@ class MainActivity : AppCompatActivity() {
 
 
         btnImc.setOnClickListener {
-            val intent = Intent(this, AgendaActivity::class.java)
-            startActivity(intent)
+            val intenta = Intent(this, ImcActivity::class.java)
+            startActivity(intenta)
         }
 
 
@@ -225,8 +224,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.example.spoorton.AgendaActivity
-import com.example.spoorton.R
 
 class ImcActivity : AppCompatActivity() {
 
@@ -236,7 +233,7 @@ class ImcActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_imc)
 
         btnHome = findViewById(R.id.btnHome)
         btnAgenda = findViewById(R.id.btnAgenda)
@@ -244,14 +241,14 @@ class ImcActivity : AppCompatActivity() {
 
         btnHome.setOnClickListener {
 
-            val intentc = Intent(this, ImcActivity::class.java)
-            startActivity(intentc)
+            val intente = Intent(this, MainActivity::class.java)
+            startActivity(intente)
 
         }
 
         btnAgenda.setOnClickListener {
-            val intentb = Intent(this, AgendaActivity::class.java)
-            startActivity(intentb)
+            val intentf = Intent(this, AgendaActivity::class.java)
+            startActivity(intentf)
         }
 
     }
@@ -324,7 +321,7 @@ XML IMC:
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="HardcodedText,VisualLintButtonSize" />
+        tools:ignore="HardcodedText,VisualLintButtonSize,TextContrastCheck" />
 
     <TextView
         android:id="@+id/text_peso"
@@ -501,7 +498,7 @@ XML IMC:
         app:layout_constraintStart_toStartOf="@+id/view"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText,TextContrastCheck" />
 
     <Button
         android:id="@+id/btnImc"
@@ -515,7 +512,7 @@ XML IMC:
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText,TextContrastCheck,DuplicateSpeakableTextCheck" />
 
     <Button
         android:id="@+id/btnAgenda"
@@ -531,7 +528,7 @@ XML IMC:
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText,TextContrastCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -540,7 +537,6 @@ XML IMC:
 
 AGENDA:
 
-package com.example.spoorton
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -566,14 +562,14 @@ class AgendaActivity : AppCompatActivity() {
 
 
         btnImc.setOnClickListener {
-            val intent = Intent(this, AgendaActivity::class.java)
-            startActivity(intent)
+            val intentc = Intent(this, ImcActivity::class.java)
+            startActivity(intentc)
         }
 
 
         btnHome.setOnClickListener {
-            val intentb = Intent(this, AgendaActivity::class.java)
-            startActivity(intentb)
+            val intentd = Intent(this, MainActivity::class.java)
+            startActivity(intentd)
         }
 
     }
@@ -589,7 +585,8 @@ XML AGENDA:
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AgendaActivity">
+    tools:context=".AgendaActivity"
+    tools:ignore="VisualLintBounds">
 
     <CalendarView
         android:id="@+id/calendarView"
@@ -655,7 +652,7 @@ XML AGENDA:
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.983"
         app:srcCompat="@drawable/calendar"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck,TouchTargetSizeCheck" />
 
     <TextView
         android:id="@+id/textView6"
@@ -669,7 +666,7 @@ XML AGENDA:
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.041"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText,TextContrastCheck" />
 
     <View
         android:id="@+id/view"
@@ -695,7 +692,7 @@ XML AGENDA:
         app:layout_constraintStart_toStartOf="@+id/view"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText,TextContrastCheck" />
 
     <Button
         android:id="@+id/btnImc"
@@ -709,7 +706,7 @@ XML AGENDA:
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText,TextContrastCheck" />
 
     <Button
         android:id="@+id/btnAgenda"
@@ -725,5 +722,5 @@ XML AGENDA:
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText,TextContrastCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>
