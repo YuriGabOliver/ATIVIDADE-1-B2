@@ -1,9 +1,12 @@
 ANDROID:
 
 <?xml version="1.0" encoding="utf-8"?>
+<!--suppress ALL -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+<uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,7 +15,7 @@ ANDROID:
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SpoortOn"
+        android:theme="@style/Theme.TesteDeAPlicação"
         tools:ignore="ExtraText"
         tools:targetApi="31">
 
@@ -46,20 +49,26 @@ ANDROID:
     </application>
 
 </manifest>
-
 MAIN: 
 
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Button
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
+@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var btnImc: Button
     private lateinit var btnAgenda: Button
+    private lateinit var btnPerfil: Button
+    private lateinit var imagemPerfil: ImageView
+    private val REQUEST_IMAGE_CAPTURE = 1
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,6 +78,8 @@ class MainActivity : AppCompatActivity() {
 
         btnImc = findViewById(R.id.btnImc)
         btnAgenda = findViewById(R.id.btnAgenda)
+        btnPerfil = findViewById(R.id.btnPerfil)
+        imagemPerfil = findViewById(R.id.imagePerfil)
 
 
         btnImc.setOnClickListener {
@@ -80,10 +91,26 @@ class MainActivity : AppCompatActivity() {
         btnAgenda.setOnClickListener {
             val intentb = Intent(this, AgendaActivity::class.java)
             startActivity(intentb)
-        }
 
+
+        }
+        btnPerfil.setOnClickListener {
+            val intenth = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(intenth, REQUEST_IMAGE_CAPTURE)
+
+
+        }
     }
 
+    @Deprecated("This method has been deprecated in favor of using the Activity Result API\n      which brings increased type safety via an {@link ActivityResultContract} and the prebuilt\n      contracts for common intents available in\n      {@link androidx.activity.result.contract.ActivityResultContracts}, provides hooks for\n      testing, and allow receiving results in separate, testable classes independent from your\n      activity. Use\n      {@link #registerForActivityResult(ActivityResultContract, ActivityResultCallback)}\n      with the appropriate {@link ActivityResultContract} and handling the result in the\n      {@link ActivityResultCallback#onActivityResult(Object) callback}.")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            imagemPerfil.setImageBitmap(imageBitmap)
+
+        }
+    }
 }
 
 XML MAIN:
@@ -146,9 +173,12 @@ XML MAIN:
         tools:layout_editor_absoluteX="-12dp" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imagePerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:accessibilityTraversalBefore="@id/btnPerfil"
+        android:background="#FFFFFF"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.056"
@@ -156,10 +186,11 @@ XML MAIN:
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.169"
         tools:ignore="ContentDescription,ImageContrastCheck"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        tools:visibility="visible" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#00BCD4"
@@ -184,7 +215,8 @@ XML MAIN:
         app:layout_constraintHorizontal_bias="0.081"
         app:layout_constraintStart_toStartOf="@+id/view"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
+        app:layout_constraintVertical_bias="0.976"
+        tools:ignore="HardcodedText,TextContrastCheck" />
 
     <Button
         android:id="@+id/btnImc"
@@ -197,7 +229,8 @@ XML MAIN:
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
+        app:layout_constraintVertical_bias="0.976"
+        tools:ignore="HardcodedText,TextContrastCheck" />
 
     <Button
         android:id="@+id/btnAgenda"
@@ -212,7 +245,8 @@ XML MAIN:
         app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
+        app:layout_constraintVertical_bias="0.976"
+        tools:ignore="HardcodedText,TextContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 --------------------------------------------------
