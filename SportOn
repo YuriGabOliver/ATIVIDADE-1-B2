@@ -1,10 +1,9 @@
 ANDROID:
-
 <?xml version="1.0" encoding="utf-8"?>
 <!--suppress ALL -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-<uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-feature android:name="android.hardware.camera"
         android:required="true" />
     <application
@@ -15,9 +14,18 @@ ANDROID:
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TesteDeAPlicação"
+        android:theme="@style/Theme.SportOn"
         tools:ignore="ExtraText"
         tools:targetApi="31">
+
+        <activity
+            android:name=".ResultadoActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="ImcActivity"
@@ -257,14 +265,19 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 
 class ImcActivity : AppCompatActivity() {
 
+
+    private lateinit var btnCalcular: Button
+    private lateinit var editPeso: EditText
+    private lateinit var editAltura: EditText
     private lateinit var btnHome: Button
     private lateinit var btnAgenda: Button
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_imc)
@@ -272,6 +285,26 @@ class ImcActivity : AppCompatActivity() {
         btnHome = findViewById(R.id.btnHome)
         btnAgenda = findViewById(R.id.btnAgenda)
 
+        btnCalcular = findViewById(R.id.btn_calcular)
+        editPeso = findViewById(R.id.edit_peso)
+        editAltura = findViewById(R.id.edit_altura)
+
+        btnCalcular.setOnClickListener {
+
+
+            val intentg = Intent(this, ResultadoActivity::class.java)
+            val peso = editPeso.text.toString()
+            val altura = editAltura.text.toString()
+
+            if (peso.isNotEmpty() && altura.isNotEmpty()) {
+
+                intentg.putExtra("peso", peso.toDouble())
+                intentg.putExtra("altura", altura.toDouble())
+
+                startActivity(intentg)
+
+            }
+        }
 
         btnHome.setOnClickListener {
 
@@ -291,6 +324,7 @@ class ImcActivity : AppCompatActivity() {
 XML IMC: 
 
 <?xml version="1.0" encoding="utf-8"?>
+<!--suppress ALL -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -356,65 +390,6 @@ XML IMC:
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="HardcodedText,VisualLintButtonSize,TextContrastCheck" />
-
-    <TextView
-        android:id="@+id/text_peso"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Peso informado 0 kg"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.61"
-        tools:ignore="HardcodedText,MissingConstraints" />
-
-    <TextView
-        android:id="@+id/text_resultado"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="24dp"
-        android:text="Resultado"
-        android:textAlignment="center"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.77"
-        tools:ignore="HardcodedText,UnknownId,UnknownIdInLayout" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Diagnóstico"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.71"
-        tools:ignore="HardcodedText" />
-
-    <TextView
-        android:id="@+id/text_altura"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Altura informada 0 m"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.486"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.663"
-        tools:ignore="HardcodedText" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edit_peso"
@@ -505,17 +480,6 @@ XML IMC:
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        tools:ignore="MissingConstraints,VisualLintBounds"
-        tools:layout_editor_absoluteX="-12dp" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="428dp"
-        android:layout_height="77dp"
-        android:background="#09B3A8"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
         tools:ignore="DuplicateIds,MissingConstraints,VisualLintBounds"
         tools:layout_editor_absoluteX="-12dp" />
 
@@ -570,7 +534,6 @@ XML IMC:
 -------------------------------------------------
 
 AGENDA:
-
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -645,49 +608,6 @@ XML AGENDA:
         tools:ignore="MissingConstraints,VisualLintBounds"
         tools:layout_editor_absoluteX="-12dp" />
 
-    <ImageButton
-        android:id="@+id/imageButton5"
-        android:layout_width="66dp"
-        android:layout_height="55dp"
-        android:backgroundTint="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.081"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.989"
-        app:srcCompat="@drawable/home"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
-
-    <ImageButton
-        android:id="@+id/imc_button"
-        android:layout_width="134dp"
-        android:layout_height="92dp"
-        android:backgroundTint="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.527"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/body_mass_index"
-        tools:ignore="ContentDescription,MissingConstraints,SpeakableTextPresentCheck,ImageContrastCheck" />
-
-    <ImageButton
-        android:id="@+id/imageButton7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="61dp"
-        android:backgroundTint="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.348"
-        app:layout_constraintStart_toEndOf="@+id/imc_button"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.983"
-        app:srcCompat="@drawable/calendar"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck,TouchTargetSizeCheck" />
-
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
@@ -701,17 +621,6 @@ XML AGENDA:
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.041"
         tools:ignore="HardcodedText,TextContrastCheck" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="428dp"
-        android:layout_height="77dp"
-        android:background="#09B3A8"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="DuplicateIds,MissingConstraints,VisualLintBounds"
-        tools:layout_editor_absoluteX="-12dp" />
 
     <Button
         android:id="@+id/btnHome"
@@ -758,3 +667,260 @@ XML AGENDA:
         app:layout_constraintVertical_bias="0.976"
         tools:ignore="HardcodedText,TextContrastCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+RESULTADO ACTIVITY:
+
+import android.annotation.SuppressLint
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
+
+class ResultadoActivity : AppCompatActivity() {
+
+    private lateinit var btnHome: Button
+    private lateinit var btnImc: Button
+    private lateinit var btnAgenda: Button
+
+    private lateinit var textPeso: TextView
+    private lateinit var textAltura: TextView
+    private lateinit var textResultado: TextView
+
+    @SuppressLint("SetTextI18n")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_resultado)
+
+        btnImc = findViewById(R.id.btnImc)
+        btnHome = findViewById(R.id.btnHome)
+        btnAgenda = findViewById(R.id.btnAgenda)
+
+        textPeso = findViewById(R.id.text_peso)
+        textAltura = findViewById(R.id.text_altura)
+        textResultado = findViewById(R.id.text_resultado)
+
+        val bundle = intent.extras
+        if (bundle != null) {
+
+            val peso = bundle.getDouble("peso")
+            val altura = bundle.getDouble("altura")
+
+            textPeso.text = "Peso informado $peso kg"
+            textAltura.text = "Altura informada $altura m"
+
+            val imc = peso / (altura * altura)
+
+            val resultado = if (imc < 18.5) {
+                "Baixo"
+            } else if (imc in 18.5..24.9) {
+                "Normal"
+            } else if (imc in 25.0..29.9) {
+                "Sobrepeso"
+            } else {
+                "Obeso"
+            }
+            textResultado.text = resultado
+
+        }
+
+        btnImc.setOnClickListener {
+            val intenta = Intent(this, ImcActivity::class.java)
+            startActivity(intenta)
+        }
+
+
+        btnAgenda.setOnClickListener {
+            val intentb = Intent(this, AgendaActivity::class.java)
+            startActivity(intentb)
+
+        }
+
+        btnHome.setOnClickListener {
+
+            val intente = Intent(this, MainActivity::class.java)
+            startActivity(intente)
+
+        }
+
+    }
+}
+
+XML RESULTADO:
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:backgroundTint="#FFFFFF"
+    tools:context=".ResultadoActivity">
+
+    <TextView
+        android:id="@+id/text_peso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Peso informado 0 kg"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="HardcodedText,MissingConstraints"
+        tools:layout_editor_absoluteY="232dp" />
+
+    <TextView
+        android:id="@+id/text_altura"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Altura informada 0 m"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_peso"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Diagnóstico"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_altura"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/text_resultado"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Digite o peso e altura"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        tools:ignore="HardcodedText" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="428dp"
+        android:layout_height="77dp"
+        android:background="#09B3A8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="MissingConstraints,VisualLintBounds"
+        tools:layout_editor_absoluteX="-12dp" />
+
+    <Button
+        android:id="@+id/btnHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        android:text="HOME"
+        android:textColor="#09B2A7"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.081"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976"
+        tools:ignore="HardcodedText,TextContrastCheck" />
+
+    <Button
+        android:id="@+id/btnImc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        android:text="IMC"
+        android:textColor="#09B2A7"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976"
+        tools:ignore="HardcodedText,TextContrastCheck" />
+
+    <Button
+        android:id="@+id/btnAgenda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        android:text="AGENDA"
+        android:textColor="#09B2A7"
+        app:iconTint="#09B2A7"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976"
+        tools:ignore="HardcodedText,TextContrastCheck" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+BUILD.GRADLE.KTS:
+
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.jetbrains.kotlin.android)
+}
+
+android {
+    namespace = "com.example.sporton"
+    compileSdk = 35
+
+    defaultConfig {
+        applicationId = "com.example.sporton"
+        minSdk = 25
+        //noinspection EditedTargetSdkVersion
+        targetSdk = 35
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+    buildFeatures {
+        viewBinding = true
+    }
+}
+
+dependencies {
+
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+}
